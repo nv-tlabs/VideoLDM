@@ -136,10 +136,9 @@
                 of high-resolution video synthesis, we leverage the LDM paradigm and extend it to video generation. Our Video LDMs map videos into a compressed latent space and 
                 model sequences of latent variables corresponding to the video frames (see animation above). We initialize the models from image LDMs and insert temporal layers into the 
                 LDMs' denoising neural networks to temporally model encoded video frame sequences. The temporal layers are based on temporal attention as well as 
-                3D convolutions. We also fine-tune the model's decoder for video generation.
-                 <!-- (see figure below). -->
+                3D convolutions. We also fine-tune the model's decoder for video generation (see figure below).
             </p>
-<!--             <center>
+            <center>
                 <div class="wrapper">
                 <figure style="margin-top: 20px; margin-bottom: 12px;">
                 <img width="65%" src="./assets/figures/video_ldm_pipeline.png" style="margin-bottom: 0px;">
@@ -148,13 +147,13 @@
                 <p class="caption">
                     <b>Latent diffusion model framework and video fine-tuning of decoder.</b> <i>Top:</i> During temporal decoder fine-tuning, we process video sequences with a frozen per-frame encoder and enforce temporally coherent reconstructions across frames. We additionally employ a video-aware discriminator. <i>Bottom:</i> in LDMs, a diffusion model is trained in latent space. It synthesizes latent features, which are then transformed through the decoder into images. Note that in practice we model entire videos and video fine-tune the latent diffusion model to generate temporally consistent frame sequences.<br><br>
                 </p>
-            </center> -->
+            </center>
             <p> Our Video LDM initially generates sparse keyframes at low frame rates, which are then temporally upsampled twice by another interpolation latent diffusion model. 
                 Moreover, optionally training Video LDMs for video prediction by conditioning on starting frames allows us to generate long videos in an autoregressive manner.  
                 To achieve high-resolution generation, we further leverage spatial diffusion model upsamplers and temporally align them for video upsampling. 
-                <!-- The entire generation stack is shown below. -->
+                The entire generation stack is shown below.
             </p>
-<!--             <center>
+            <center>
                 <div class="wrapper">
                 <figure style="margin-top: 20px; margin-bottom: 12px;">
                 <img width="70%" src="./assets/figures/video_ldm_stack.png" style="margin-bottom: 0px;">
@@ -163,9 +162,9 @@
                 <p class="caption">
                     <b>Video LDM Stack.</b> We first generate sparse key frames. Then we temporally interpolate in two steps with the same interpolation model to achieve high frame rates. These operations use latent diffusion models (LDMs) that share the same image backbone. Finally, the latent video is decoded to pixel space and optionally a video upsampler diffusion model is applied.<br><br>
                 </p>
-            </center> -->
+            </center>
             <p> 
-                <!-- <b>Applications.</b>  -->
+                <b>Applications.</b> 
                 We validate our approach on two relevant but distinct applications: Generation of in-the-wild driving scene videos and creative content creation with text-to-video modeling. For 
                 driving video synthesis, our Video LDM enables generation of temporally coherent, multiple minute long videos at resolution 512 x 1024, achieving state-of-the-art performance. For text-to-video, we demonstrate synthesis
                 of short videos of several seconds lengths with resolution up to 1280 x 2048, leveraging Stable Diffusion as backbone image LDM as well as the Stable Diffusion upscaler. We also explore the convolutional-in-time application of our models as an alternative approach to extend the length of videos. Our main keyframe models only train the newly inserted temporal layers,
