@@ -97,9 +97,9 @@
                     Here, we apply the LDM paradigm to high-resolution video generation, a particularly resource-intensive task. We first pre-train an LDM on images only; then, we turn the image generator 
                     into a video generator by introducing a temporal dimension to the latent space diffusion model and fine-tuning on encoded image sequences, i.e., videos. Similarly, we temporally align
                     diffusion model upsamplers, turning them into temporally consistent video super resolution models. We focus on two relevant real-world applications: Simulation of in-the-wild driving
-                    data and creative content creation with text-to-video modeling. In particular, we validate our Video LDM on real driving videos of resolution 512 × 1024, achieving state-of-the-art 
+                    data and creative content creation with text-to-video modeling. In particular, we validate our Video LDM on real driving videos of resolution 512 x 1024, achieving state-of-the-art 
                     performance. Furthermore, our approach can easily leverage off-the-shelf pre-trained image LDMs, as we only need to train a temporal alignment model in that case. Doing so, we turn 
-                    the publicly available, state-of-the-art text-to-image LDM Stable Diffusion into an efficient and expressive text-to-video model with resolution up to 1280 × 2048. We show that the 
+                    the publicly available, state-of-the-art text-to-image LDM Stable Diffusion into an efficient and expressive text-to-video model with resolution up to 1280 x 2048. We show that the 
                     temporal layers trained in this way generalize to different fine-tuned text-to-image LDMs. Utilizing this property, we show the first results for personalized text-to-video generation,
                     opening exciting directions for future content creation.
                 </p>
@@ -167,8 +167,8 @@
             <p> 
                 <!-- <b>Applications.</b>  -->
                 We validate our approach on two relevant but distinct applications: Generation of in-the-wild driving scene videos and creative content creation with text-to-video modeling. For 
-                driving video synthesis, our Video LDM enables generation of temporally coherent multiple minute long videos at resolution 512 × 1024. For text-to-video, we demonstrate synthesis
-                of short videos of several seconds lengths with resolution up to 1280 × 2048, leveraging Stable Diffusion as backbone image LDM as well as the Stable Diffusion upscaler. We also explore the convolutional-in-time application of our models as an alternative approach to extend the length of videos. Note that our main keyframe models only train the newly inserted temporal layers,
+                driving video synthesis, our Video LDM enables generation of temporally coherent multiple minute long videos at resolution 512 x 1024. For text-to-video, we demonstrate synthesis
+                of short videos of several seconds lengths with resolution up to 1280 x 2048, leveraging Stable Diffusion as backbone image LDM as well as the Stable Diffusion upscaler. We also explore the convolutional-in-time application of our models as an alternative approach to extend the length of videos. Note that our main keyframe models only train the newly inserted temporal layers,
                 but do not touch the layers of the backbone image LDM. Because of that the learnt temporal layers can be transferred to other image LDM backbones, for instance to ones that
                 have been fine-tuned with DreamBooth. Leveraging this property, we show initial results for personalized text-to-video generation.
             </p>            
@@ -180,7 +180,7 @@
         <h2>Text-to-Video Synthesis</h2>
         <hr>
         <div class="flex-row">
-            <p> Many generated videos can be found at the top of the page as well as <a href="samples.html">here</a>. The generated videos have a resolution of 1280 × 2048 pixels and are 4.27 seconds long with a frame rate of 30 fps.   
+            <p> Many generated videos can be found at the top of the page as well as <a href="samples.html">here</a>. The generated videos have a resolution of 1280 x 2048 pixels and are 4.27 seconds long with a frame rate of 30 fps.   
                 Our Video LDM for text-to-video generation is based on Stable Diffusion and has a total of 4.1B parameters, including all components except the CLIP text encoder. Only 2.7B of these parameters are trained on videos. 
                 This means that our models are significantly smaller than those of several concurrent works. Nevertheless, we can produce high-resolution, temporally consistent and diverse videos. This can be attributed to the efficient
                 LDM approach. Below is another text-to-video sample, one of our favorites.
@@ -402,7 +402,7 @@
         <h2>Driving Scene Video Generation</h2>
         <hr>
         <div class="flex-row">
-            <p> We also train a Video LDM on in-the-wild real driving scene videos and generate videos at 512 × 1024 resolution. Here, we are additionally training prediction models to enable long video generation, allowing us to generate temporally coherent videos that are several minutes long. Below we show four short synthesized videos. Furthermore, several 5 minute long generated videos can be found <a href="https://drive.google.com/file/d/1xlE079d4QmVZ-kWLZVsIk8iHWWH5wzKO/view?usp=share_link">here</a>.
+            <p> We also train a Video LDM on in-the-wild real driving scene videos and generate videos at 512 x 1024 resolution. Here, we are additionally training prediction models to enable long video generation, allowing us to generate temporally coherent videos that are several minutes long. Below we show four short synthesized videos. Furthermore, several 5 minute long generated videos can be found <a href="https://drive.google.com/file/d/1xlE079d4QmVZ-kWLZVsIk8iHWWH5wzKO/view?usp=share_link">here</a>.
             </p>
             <div class="wrapper" style="justify-content: space-between">
                 <div style="width: 49.5%;">
