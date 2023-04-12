@@ -1,0 +1,679 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> 
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="text/javascript" src="../js/hidebib.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,400italic,600italic,300,300italic' rel='stylesheet' type='text/css'>
+
+<head>
+    <title>Align Your Latents: High-Resolution Video Synthesis with Latent Diffusion Models</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Align Your Latents: High-Resolution Video Synthesis with Latent Diffusion Models"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link href="./css/videoldm_style.css" type="text/css" rel="stylesheet" >
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@karsten_kreis">
+    <meta name="twitter:title" content="Align Your Latents: High-Resolution Video Synthesis with Latent Diffusion Models">
+    <meta name="twitter:description" content="We develop Video Latent Diffusion Models (Video LDMs) for computationally efficient high-resolution video synthesis. We first pre-train an LDM on images only; then, we turn the image generator 
+                into a video generator by introducing a temporal dimension to the latent space diffusion model and fine-tuning on encoded image sequences, i.e., videos. We demonstrate high-resolution text-to-video synthesis and in-the-wild driving
+                video generation.">
+    <meta name="twitter:image" content="https://nv-tlabs.github.io/VideoLDM/assets/figures/pipeline_resized.jpg">
+</head>
+
+
+
+
+<body>
+
+    <div class="background_video_header" style="width: 100%">
+
+        <div class="nv-btn-parent">
+            <a href="https://research.nvidia.com/labs/toronto-ai/">
+                <div class="nv-btn">
+                <img width="90%" src="assets/figures/nvidia.svg" style="margin-top: 15px; margin-bottom: 0px; margin-left: auto; margin-right: auto;"><br/>
+                Toronto AI Lab
+                </div>
+            </a>
+        </div>
+
+        <h1><div class="paper-title">Align Your Latents:<br>High-Resolution Video Synthesis with Latent Diffusion Models</div></h1>
+        <div id="authors">
+            <center>
+            <div class="author-row-new">
+                <a href="https://twitter.com/andi_blatt">Andreas Blattmann<sup>1</sup> <sup>*,<span>&#8224;</span></sup></a>
+                <a href="https://twitter.com/robrombach">Robin Rombach<sup>1</sup> <sup>*,<span>&#8224;</span></sup></a>
+                <a href="https://www.cs.toronto.edu/~linghuan/">Huan Ling<sup>2,3,4</sup> <sup>*</sup></a>
+                <a href="https://timudk.github.io/">Tim Dockhorn<sup>2,3,5</sup> <sup>*,<span>&#8224;</span></sup></a><br/>
+                <a href="https://seung-kim.github.io/seungkim/">Seung Wook Kim<sup>2,3,4</sup></a>
+                <a href="https://www.cs.toronto.edu/~fidler/">Sanja Fidler<sup>2,3,4</sup></a>
+                <a href="https://karstenkreis.github.io/">Karsten Kreis<sup>2</sup></a>
+            </div>
+            </center>
+            <center>
+            <div class="affiliations-new">
+                <span><sup>1</sup> LMU Munich,</span>
+                <span><sup>2</sup> NVIDIA,</span>
+                <span><sup>3</sup> Vector Institute,</span>
+                <span><sup>4</sup> University of Toronto,</span>
+                <span><sup>5</sup> University of Waterloo</span><br/>
+            </div>
+
+            <div class="affiliations-new">
+                <span><sup>*</sup> Equal contribution.</span><br/>
+                <span><sup><span>&#8224;</span></sup> Andreas, Robin and Tim did the work during internships at NVIDIA.</span><br/>
+            </div>
+
+            <div class="affil-row">
+                <div class="venue text-center"><b>IEEE Conference on Computer Vision and Pattern Recognition (CVPR) 2023</b></div><br/>
+            </div>
+
+            </center>
+
+            <div style="clear: both">
+                <div class="paper-btn-parent">
+                <a class="paper-btn" href="https://nv-tlabs.github.io/VideoLDM/">Read the paper</a>
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+    </div>
+
+    <hr style="height: 5px; border: none; color: black; background-color: black;">
+    <div class="video_2" id="video_gallery" style="width: 100%"></div>
+    <hr style="height: 5px; border: none; color: black; background-color: black;">
+
+    <hr style="height: 20px; border: none; color: black; background-color: #ebebeb;">
+    <center>
+    <div class="grey_bg"> 
+        <a href="samples.html"><div class="more-samples">Click for more samples</div></a>
+        <hr style="height: 25px; border: none; color: black; background-color: #ebebeb;">
+        <section id="abstract"/>
+            <h2>Abstract</h2>
+            <hr>
+            <div class="flex-row">
+                <p>
+                    Latent Diffusion Models (LDMs) enable high-quality image synthesis while avoiding excessive compute demands by training a diffusion model in a compressed lower-dimensional latent space. 
+                    Here, we apply the LDM paradigm to high-resolution video generation, a particularly resource-intensive task. We first pre-train an LDM on images only; then, we turn the image generator 
+                    into a video generator by introducing a temporal dimension to the latent space diffusion model and fine-tuning on encoded image sequences, i.e., videos. Similarly, we temporally align
+                    diffusion model upsamplers, turning them into temporally consistent video super resolution models. We focus on two relevant real-world applications: Simulation of in-the-wild driving
+                    data and creative content creation with text-to-video modeling. In particular, we validate our Video LDM on real driving videos of resolution 512 × 1024, achieving state-of-the-art 
+                    performance. Furthermore, our approach can easily leverage off-the-shelf pre-trained image LDMs, as we only need to train a temporal alignment model in that case. Doing so, we turn 
+                    the publicly available, state-of-the-art text-to-image LDM Stable Diffusion into an efficient and expressive text-to-video model with resolution up to 1280 × 2048. We show that the 
+                    temporal layers trained in this way generalize to different fine-tuned text-to-image LDMs. Utilizing this property, we show the first results for personalized text-to-video generation,
+                    opening exciting directions for future content creation.
+                </p>
+            </div>
+        </section>
+        <hr style="height: 20px; border: none; color: black; background-color: #ebebeb;">
+    </div>
+    </center>
+    <hr style="height: 2px; border: none; color: black; background-color: black;">
+
+
+    <section id="pipeline">
+            <center>
+                <div class="wrapper">
+                <figure style="margin-top: 50px; margin-bottom: 12px;">
+                <img width="50%" src="./assets/figures/placeholder.png" style="margin-bottom: 0px;">
+                </figure>
+                </div>
+                <p class="caption">
+                    <b>Animation of temporal video fine-tuning in our Video Latent Diffusion Models (Video LDMs).</b> We turn pre-trained image diffusion models into temporally consistent video generators.
+                    Initially, different samples of a batch synthesized by the model are independent. After temporal video fine-tuning, the samples are temporally aligned and form coherent videos.
+                    The stochastic generation processes before and after fine-tuning are visualised for a diffusion model of a one-dimensional toy distribution. For clarity, the figure corresponds to alignment in pixel space.
+                    In practice, we perform alignment in LDM's latent space and obtain videos after applying LDM's decoder.<br><br>
+                </p>
+            </center>
+    </section>
+
+
+    <section id="overview">
+        <h2>Video Latent Diffusion Models</h2>
+        <hr>
+        <div class="flex-row">
+            <p> We present Video Latent Diffusion Models (Video LDMs) for computationally efficient high-resolution video generation. To alleviate the intensive compute and memory demands
+                of high-resolution video synthesis, we leverage the LDM paradigm and extend it to video generation. Our Video LDMs map videos into a compressed latent space and 
+                model sequences of latent variables corresponding to the video frames (see animation above). We initialize the models from image LDMs and insert temporal layers into the 
+                LDMs' denoising neural networks to temporally model encoded video frame sequences. The temporal layers are based on temporal attention as well as 
+                3D convolutions. We also fine-tune the model's decoder for video generation.
+                 <!-- (see figure below). -->
+            </p>
+<!--             <center>
+                <div class="wrapper">
+                <figure style="margin-top: 20px; margin-bottom: 12px;">
+                <img width="65%" src="./assets/figures/video_ldm_pipeline.png" style="margin-bottom: 0px;">
+                </figure>
+                </div>
+                <p class="caption">
+                    <b>Latent diffusion model framework and video fine-tuning of decoder.</b> <i>Top:</i> During temporal decoder fine-tuning, we process video sequences with a frozen per-frame encoder and enforce temporally coherent reconstructions across frames. We additionally employ a video-aware discriminator. <i>Bottom:</i> in LDMs, a diffusion model is trained in latent space. It synthesizes latent features, which are then transformed through the decoder into images. Note that in practice we model entire videos and video fine-tune the latent diffusion model to generate temporally consistent frame sequences.<br><br>
+                </p>
+            </center> -->
+            <p> Our Video LDM initially generates sparse keyframes at low frame rates, which are then temporally upsampled twice by another interpolation latent diffusion model. 
+                Moreover, optionally training Video LDMs for video prediction by conditioning on starting frames allows us to generate long videos in an autoregressive manner.  
+                To achieve high-resolution generation, we further leverage spatial diffusion model upsamplers and temporally align them for video upsampling. 
+                <!-- The entire generation stack is shown below. -->
+            </p>
+<!--             <center>
+                <div class="wrapper">
+                <figure style="margin-top: 20px; margin-bottom: 12px;">
+                <img width="70%" src="./assets/figures/video_ldm_stack.png" style="margin-bottom: 0px;">
+                </figure>
+                </div>
+                <p class="caption">
+                    <b>Video LDM Stack.</b> We first generate sparse key frames. Then we temporally interpolate in two steps with the same interpolation model to achieve high frame rates. These operations use latent diffusion models (LDMs) that share the same image backbone. Finally, the latent video is decoded to pixel space and optionally a video upsampler diffusion model is applied.<br><br>
+                </p>
+            </center> -->
+            <p> 
+                <!-- <b>Applications.</b>  -->
+                We validate our approach on two relevant but distinct applications: Generation of in-the-wild driving scene videos and creative content creation with text-to-video modeling. For 
+                driving video synthesis, our Video LDM enables generation of temporally coherent multiple minute long videos at resolution 512 × 1024. For text-to-video, we demonstrate synthesis
+                of short videos of several seconds lengths with resolution up to 1280 × 2048, leveraging Stable Diffusion as backbone image LDM as well as the Stable Diffusion upscaler. We also explore the convolutional-in-time application of our models as an alternative approach to extend the length of videos. Note that our main keyframe models only train the newly inserted temporal layers,
+                but do not touch the layers of the backbone image LDM. Because of that the learnt temporal layers can be transferred to other image LDM backbones, for instance to ones that
+                have been fine-tuned with DreamBooth. Leveraging this property, we show initial results for personalized text-to-video generation.
+            </p>            
+        </div>
+    </section>
+
+
+    <section id="text-to-video">
+        <h2>Text-to-Video Synthesis</h2>
+        <hr>
+        <div class="flex-row">
+            <p> Many generated videos can be found at the top of the page as well as <a href="samples.html">here</a>. The generated videos have a resolution of 1280 × 2048 pixels and are 4.27 seconds long with a frame rate of 30 fps.   
+                Our Video LDM for text-to-video generation is based on Stable Diffusion and has a total of 4.1B parameters, including all components except the CLIP text encoder. Only 2.7B of these parameters are trained on videos. 
+                This means that our models are significantly smaller than those of several concurrent works. Nevertheless, we can produce high-resolution, temporally consistent and diverse videos. This can be attributed to the efficient
+                LDM approach. Below is another text-to-video sample, one of our favorites.
+            </p>
+            <center>
+                <div class="wrapper">
+                    <center>
+                    <div style="width: 90%;">
+                    <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/text_to_video/teddy_bear_guitar.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "A teddy bear is playing the electric guitar, high definition, 4k"
+                        </p>
+                    </figure>
+                    </div>
+                    </center>
+                </div>
+            </center>
+
+
+            <p> <b>Personalized Video Generation.</b> We insert the temporal layers that were trained for our Video LDM for text-to-video synthesis into image LDM backbones that we previously fine-tuned on a set of images
+                following <a href="https://dreambooth.github.io/">DreamBooth</a>. The temporal layers generalize to the DreamBooth checkpoints, thereby enabling personalized text-to-video generation.
+            </p>
+            <div class="wrapper" style="justify-content: space-between">
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <img class="centered" width="66%" src="./assets/figures/placeholder.png" style="margin-bottom: 0px;">
+                        <p class="caption">
+                             Training Images for DreamBooth.
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+            </div>
+
+            <div class="wrapper" style="justify-content: space-between">
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <img class="centered" width="66%" src="./assets/figures/placeholder.png" style="margin-bottom: 0px;">
+                        <p class="caption">
+                             Training Images for DreamBooth.
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+            </div>
+
+            <div class="wrapper" style="justify-content: space-between">
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <img class="centered" width="66%" src="./assets/figures/placeholder.png" style="margin-bottom: 0px;">
+                        <p class="caption">
+                             Training Images for DreamBooth.
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+            </div>
+
+            <div class="wrapper" style="justify-content: space-between">
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <img class="centered" width="66%" src="./assets/figures/placeholder.png" style="margin-bottom: 0px;">
+                        <p class="caption">
+                             Training Images for DreamBooth.
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 33%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt:"REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+            </div>
+
+
+            <p> <b>Convolutional-in-Time Synthesis.</b> We also explored synthesizing slightly longer videos "for free" by applying our learnt temporal layers convolutionally in time. The below videos are X seconds long.
+            </p>
+            <div class="wrapper" style="justify-content: space-between">
+                <div style="width: 49.5%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 49.5%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/placeholder.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                            Text prompt: "REPLACE SAMPLE AND INSERT PROMPT"
+                        </p>
+                </figure>
+                </center>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="text-to-video">
+        <h2>Driving Scene Video Generation</h2>
+        <hr>
+        <div class="flex-row">
+            <p> We also train a Video LDM on in-the-wild real driving scene videos and generate videos at 512 × 1024 resolution. Here, we are additionally training prediction models to enable long video generation, allowing us to generate temporally coherent videos that are several minutes long. Below we show four short synthesized videos. Furthermore, several 5 minute long generated videos can be found <a href="https://drive.google.com/file/d/1xlE079d4QmVZ-kWLZVsIk8iHWWH5wzKO/view?usp=share_link">here</a>.
+            </p>
+            <div class="wrapper" style="justify-content: space-between">
+                <div style="width: 49.5%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/driving/high_res_driving_1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 49.5%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/driving/high_res_driving_2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                </figure>
+                </center>
+                </div>
+            </div>
+            <div class="wrapper" style="justify-content: space-between">
+                <div style="width: 49.5%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/driving/high_res_driving_3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                </figure>
+                </center>
+                </div>
+                <div style="width: 49.5%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/driving/high_res_driving_4.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                </figure>
+                </center>
+                </div>
+            </div>
+            <br>
+            <p> <b>Specific Driving Scenario Simulation.</b> In practice, we may be interested in simulating a specific scene. To this end, we trained a bounding box-conditioned image-only LDM. Leveraging this model, we can place bounding boxes
+                to construct a setting of interest, synthesize a corresponding starting frame, and then generate plausible videos starting from the designed scene. Below, the image on the left hand side is the initial frame that was generated based on 
+                the shown bounding boxes. On the right hand, a video starting from that frame is generated.
+            </p>
+            <div class="wrapper" style="justify-content: space-between; align-items: center;">
+                <div style="width: 45%;">
+                <center>
+                <figure>
+                        <img class="centered" width="100%" src="./assets/driving/bbox_scene_1.png" style="margin-bottom: 0px;">
+                </figure>
+                </center>
+                </div>
+                <div style="width: 55%;">
+                <center>
+                <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/driving/bbox_video_1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                </figure>
+                </center>
+                </div>
+            </div>
+
+            <br>
+            <p> <b>Multimodal Driving Scenario Prediction.</b> As another potentially relevant application, we can take the same starting frame and generate multiple plausible rollouts. In the two sets of videos below, synthesis starts from the same initial frame.
+            </p>
+            <center>
+                <div class="wrapper">
+                    <center>
+                    <div style="width: 90%;">
+                    <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/driving/driving_rollout_1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                    </figure>
+                    </div>
+                    </center>
+                </div>
+                <div class="wrapper">
+                    <center>
+                    <div style="width: 90%;">
+                    <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/driving/driving_rollout_2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                    </figure>
+                    </div>
+                    </center>
+                </div>
+            </center>
+
+        </div>
+    </section>
+
+    
+    <section id="paper">
+        <h2>Paper</h2>
+        <hr>
+        <div class="flex-row">
+            <div class="download-thumb">
+                <div style="box-sizing: border-box; padding: 16px; margin: auto;">
+                    <a href="https://nv-tlabs.github.io/VideoLDM/"><img class="screenshot" src="assets/figures/video_ldm_paper_preview.png"></a>
+                </div>
+            </div>
+            <div class="paper-stuff">
+                <p><b>Align Your Latents:<br>High-Resolution Video Synthesis with Latent Diffusion Models</b></p>
+                <p>Andreas Blattmann*, Robin Rombach*, Huan Ling*, Tim Dockhorn*, Seung Wook Kim, Sanja Fidler, Karsten Kreis</p>
+                <p><i>* Equal contribution.</i></p>
+                <p><i>IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2023</i></p>
+                <div><span class="material-icons"> description </span><a href="https://nv-tlabs.github.io/VideoLDM/"> arXiv version</a></div>
+                <div><span class="material-icons"> insert_comment </span><a href="assets/blattmann2023videoldm.bib"> BibTeX</a></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bibtex">
+        <h2>Citation</h2>
+        <hr>
+        <pre><code>@inproceedings{blattmann2023videoldm,
+    title={Align Your Latents: High-Resolution Video Synthesis with Latent Diffusion Models},
+    author={Blattmann, Andreas and Rombach, Robin and Ling, Huan and Dockhorn, Tim and Kim, Seung Wook and Fidler, Sanja and Kreis, Karsten},
+    booktitle={IEEE Conference on Computer Vision and Pattern Recognition ({CVPR})},
+    year={2023}
+}</code></pre>
+    </section>
+
+
+
+<script>
+
+hdvideos = [
+  {"caption": "A bigfoot walking in the snowstorm.", "src": "assets/text_to_video/video1.mp4"},
+  {"caption": "A cute happy Corgi playing in park, sunset, 4k.", "src": "assets/text_to_video/video2.mp4"},
+  {"caption": "A dog swimming.", "src": "assets/text_to_video/video3.mp4"},
+  {"caption": "A dog wearing virtual reality goggles in sunset, 4k, high resolution.", "src": "assets/text_to_video/video4.mp4"},
+  {"caption": "A fantasy landscape, trending on artstation, 4k, high resolution.", "src": "assets/text_to_video/video5.mp4"},
+  {"caption": "A fantasy landscape, trending on artstation, 4k, high resolution.", "src": "assets/text_to_video/video6.mp4"},
+  {"caption": "A fox dressed in suit dancing in park.", "src": "assets/text_to_video/video7.mp4"},
+  {"caption": "A golden retriever has a picnic on a beautiful tropical beach at sunset, high resolution.", "src": "assets/text_to_video/video8.mp4"},
+  {"caption": "A hot air balloon ascending over a lush valley, 4k, high definition.", "src": "assets/text_to_video/video9.mp4"},
+  {"caption": "A lion standing on a surfboard in the ocean in sunset, 4k, high resolution.", "src": "assets/text_to_video/video10.mp4"},
+  {"caption": "A panda standing on a surfboard in the ocean in sunset, 4k, high resolution.", "src": "assets/text_to_video/video11.mp4"},
+  {"caption": "A shiny golden waterfall flowing through glacier at night.", "src": "assets/text_to_video/video12.mp4"},
+  {"caption": "A storm trooper riding a bike in sunset street, 4k, high resolution.", "src": "assets/text_to_video/video13.mp4"},
+  {"caption": "A storm trooper vacuuming the beach.", "src": "assets/text_to_video/video14.mp4"},
+  {"caption": "Aerial view of a white sandy beach on the shores of a beautiful sea, 4k, high resolution.", "src": "assets/text_to_video/video15.mp4"},
+  {"caption": "An astronaut flying in space, 4k, high resolution.", "src": "assets/text_to_video/video16.mp4"},
+  {"caption": "An astronaut riding a horse, high definition, 4k.", "src": "assets/text_to_video/video17.mp4"},
+  {"caption": "Cherry blossoms swing in front of ocean view, 4k, high resolution.", "src": "assets/text_to_video/video18.mp4"},
+  {"caption": "Fireworks.", "src": "assets/text_to_video/video19.mp4"},
+  {"caption": "Icelandic horses near lake.", "src": "assets/text_to_video/video20.mp4"},
+  {"caption": "Milk dripping into a cup of coffee, high definition, 4k.", "src": "assets/text_to_video/video21.mp4"},
+  {"caption": "Sunset time lapse at the beach with moving clouds and colors in the sky, 4k, high resolution.", "src": "assets/text_to_video/video22.mp4"},
+  {"caption": "Teddy bear walking down 5th Avenue, front view, beautiful sunset, close up, high definition, 4k.", "src": "assets/text_to_video/video23.mp4"},
+  {"caption": "The Orient Express driving through a fantasy landscape, animated oil on canvas.", "src": "assets/text_to_video/video24.mp4"},
+  {"caption": "Time lapse at the snow land with aurora in the sky, 4k, high resolution.", "src": "assets/text_to_video/video25.mp4"},
+  {"caption": "Turtle swimming in ocean.", "src": "assets/text_to_video/video26.mp4"},
+  {"caption": "Two pandas sitting at a table playing cards, 4k, high resolution.", "src": "assets/text_to_video/video27.mp4"},
+  {"caption": "Two raccoons reading books in nyc Times Square.", "src": "assets/text_to_video/video28.mp4"},
+  {"caption": "Waves crashing against a lone lighthouse, ominous lighting.", "src": "assets/text_to_video/video29.mp4"},
+  {"caption": "Wood on fire.", "src": "assets/text_to_video/video30.mp4"},
+  {"caption": "Yellow flowers swing in wind.", "src": "assets/text_to_video/video31.mp4"},
+  {"caption": "A squirrel eating a burger.", "src": "assets/text_to_video/video32.mp4"},
+  {"caption": "Horror house living room interior overview design, Moebius, Greg Rutkowski, Zabrocki, Karlkka, Jayison Devadas, Phuoc Quan, trending on Artstation, 8K, ultra wide angle, pincushion lens effect.", "src": "assets/text_to_video/video33.mp4"},
+  {"caption": "A horse galloping through van Gogh’s Starry Night.", "src": "assets/text_to_video/video34.mp4"},
+  // {"caption": "Incredibly detailed science fiction scene set on an alien planet, view of a marketplace. Pixel art.", "src": "hdvideos/40.mp4"},
+  // {"caption": "Melting ice cream dripping down the cone.", "src": "hdvideos/41.mp4"},
+  // {"caption": "Melting pistachio ice cream dripping down the cone.", "src": "hdvideos/42.mp4"},
+  // {"caption": "Pouring latte art into a silver cup with a golden spoon next to it.", "src": "hdvideos/43.mp4"},
+  // {"caption": "Shoveling snow.", "src": "hdvideos/44.mp4"},
+  // {"caption": "Sprouts in the shape of text 'Imagen Video' coming out of a fairytale book.  Smooth animation.", "src": "hdvideos/45.mp4"},
+  // {"caption": "Sprouts in the shape of text 'Imagen Video' coming out of a fairytale book. Smooth video.", "src": "hdvideos/46.mp4"},
+  // {"caption": "Sprouts in the shape of text 'Imagen Video' coming out of a fairytale book.", "src": "hdvideos/47.mp4"},
+  // {"caption": "Studio shot of minimal kinetic sculpture made from thin wire shaped like a bird on white background.", "src": "hdvideos/49.mp4"},
+  // {"caption": "Thousands of fast brush strokes slowly forming the text 'Imagen Video' on a light beige canvas. Oil painting style. Smooth animation.", "src": "hdvideos/50.mp4"},
+  // {"caption": "Tiny plant sprout coming out of the ground.", "src": "hdvideos/51.mp4"},
+  // {"caption": "View of a castle with fantastically high towers reaching into the clouds in a hilly forest at dawn.", "src": "hdvideos/52.mp4"},
+  // {"caption": "Wooden figurine surfing on a surfboard in space.", "src": "hdvideos/53.mp4"},
+  // {"caption": "Wooden figurine walking on a treadmill made out of exercise mat.", "src": "hdvideos/54.mp4"},
+  // {"caption": "drone flythrough interior of sagrada familia cathedral", "src": "hdvideos/55.mp4"},
+];
+
+videos = hdvideos.sort((a, b) => 0.5 - Math.random());;
+
+globalVideoIdx = 0;
+
+function updateVideoSlot(idxVideo, idxSlot) {
+  slot = $("#video_gallery > div").eq(idxSlot);
+
+  src = videos[idxVideo].src;
+  caption = videos[idxVideo].caption;
+
+  slot.find("div.video_container > video > source").attr("src", src);
+  slot.find("div.video_container > video")[0].load();
+  slot.find("div.video_container > div.caption > div").text(caption);
+}
+
+function updateVideoGallery() {
+  numVideos = videos.length;
+  idxVideo = Math.floor(Math.random() * numVideos);
+
+  numSlots = $("#video_gallery > div").length;
+  idxSlot = Math.floor(Math.random() * numSlots);
+
+  globalVideoIdx = ++globalVideoIdx % numVideos;
+  updateVideoSlot(globalVideoIdx, idxSlot);
+
+  setTimeout(updateVideoGallery, 4270);
+}
+
+function updateAllVideoSlots() {
+  numVideos = videos.length;
+  numSlots = $("#video_gallery > div").length;
+
+  globalVideoIdx = Math.floor(Math.random() * numVideos);
+  for (var i = 0; i < numSlots; ++i, ++globalVideoIdx) {
+    globalVideoIdx = globalVideoIdx % numVideos;
+    updateVideoSlot(globalVideoIdx, i);
+  }
+}
+
+function addVideoSlot(idx) {
+  if (idx < 8) {
+    template = `
+  <div class="video_wrapper">
+    <div class="video_container">
+      <video autoplay loop muted playsinline><source src="videos/placeholder.mp4" type="video/mp4"></video>
+      <div class="caption">
+        <div></div>
+      </div>
+    </div>
+  </div>
+  `;
+  } else {
+    template = `
+  <div class="video_wrapper nomobile">
+    <div class="video_container">
+      <video autoplay loop muted playsinline><source src="videos/placeholder.mp4" type="video/mp4"></video>
+      <div class="caption">
+        <div></div>
+      </div>
+    </div>
+  </div>
+  `;
+  }
+
+  $("#video_gallery").append(template);
+}
+
+function playVideo(id, src) {
+  $(id + " video > source").attr("src", src);
+  $(id + " video")[0].load();
+}
+
+for (var i = 0; i < 16; ++i) {
+  addVideoSlot(i);
+}
+
+updateAllVideoSlots();
+setTimeout(updateVideoGallery, 4270);
+
+</script>
+
+</body>
+</html>
