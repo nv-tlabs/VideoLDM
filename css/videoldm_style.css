@@ -397,7 +397,7 @@ div.background_video_header {
   flex-wrap: nowrap;
   align-items: center;
   /*background: linear-gradient(180deg, rgba(16, 56, 74, 0.6) 0%, rgba(36, 83, 102, 0) 61.76%), linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(assets/leaves.webp);*/
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(./../assets/backgrounds/background3.webp);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(./../assets/backgrounds/background4.webp);
   /*background: url(assets/leaves.webp);*/
   background-size: cover;
   background-position: center;
