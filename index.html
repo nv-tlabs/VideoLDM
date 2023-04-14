@@ -113,17 +113,24 @@
 
     <section id="pipeline">
             <center>
-                <div class="wrapper">
-                <figure style="margin-top: 50px; margin-bottom: 12px;">
-                <img width="70%" src="./assets/figures/placeholder.png" style="margin-bottom: 0px;">
-                </figure>
+                <div class="wrapper"  style="align-items: center;">
+                    <center>
+                    <div style="width: 100%;">
+                    <figure>
+                        <video class="centered" width="100%" autoplay loop muted playsinline class="video-background" >
+                        <source src="assets/figures/video_ldm_animation.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                        <p class="caption">
+                        <b>Animation of temporal video fine-tuning in our Video Latent Diffusion Models (Video LDMs).</b> We turn pre-trained image diffusion models into temporally consistent video generators.
+                        Initially, different samples of a batch synthesized by the model are independent. After temporal video fine-tuning, the samples are temporally aligned and form coherent videos.
+                        The stochastic generation processes before and after fine-tuning are visualised for a diffusion model of a one-dimensional toy distribution. For clarity, the figure corresponds to alignment in pixel space.
+                        In practice, we perform alignment in LDM's latent space and obtain videos after applying LDM's decoder.<br><br>
+                        </p>
+                    </figure>
+                    </div>
+                    </center>
                 </div>
-                <p class="caption">
-                    <b>Animation of temporal video fine-tuning in our Video Latent Diffusion Models (Video LDMs).</b> We turn pre-trained image diffusion models into temporally consistent video generators.
-                    Initially, different samples of a batch synthesized by the model are independent. After temporal video fine-tuning, the samples are temporally aligned and form coherent videos.
-                    The stochastic generation processes before and after fine-tuning are visualised for a diffusion model of a one-dimensional toy distribution. For clarity, the figure corresponds to alignment in pixel space.
-                    In practice, we perform alignment in LDM's latent space and obtain videos after applying LDM's decoder.<br><br>
-                </p>
             </center>
     </section>
 
@@ -575,7 +582,7 @@ hdvideos = [
   {"caption": "Yellow flowers swing in wind.", "src": "assets/text_to_video/video31.mp4"},
   {"caption": "A squirrel eating a burger.", "src": "assets/text_to_video/video32.mp4"},
   {"caption": "Horror house living room interior overview design, Moebius, Greg Rutkowski, Zabrocki, Karlkka, Jayison Devadas, Phuoc Quan, trending on Artstation, 8K, ultra wide angle, pincushion lens effect.", "src": "assets/text_to_video/video33.mp4"},
-  {"caption": "A horse galloping through van Gogh’s Starry Night.", "src": "assets/text_to_video/video34.mp4"},
+  {"caption": "A horse galloping through van Gogh's Starry Night.", "src": "assets/text_to_video/video34.mp4"},
   // {"caption": "Incredibly detailed science fiction scene set on an alien planet, view of a marketplace. Pixel art.", "src": "hdvideos/40.mp4"},
   // {"caption": "Melting ice cream dripping down the cone.", "src": "hdvideos/41.mp4"},
   // {"caption": "Melting pistachio ice cream dripping down the cone.", "src": "hdvideos/42.mp4"},
