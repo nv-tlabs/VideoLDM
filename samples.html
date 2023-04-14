@@ -7,7 +7,7 @@
 <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,400italic,600italic,300,300italic' rel='stylesheet' type='text/css'>
 
 <head>
-    <title>Align Your Latents: High-Resolution Video Synthesis with Latent Diffusion Models - Samples</title>
+    <title>Align your Latents: High-Resolution Video Synthesis with Latent Diffusion Models - Samples</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:description" content="Align Your Latents: High-Resolution Video Synthesis with Latent Diffusion Models"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
@@ -84,11 +84,11 @@ hdvideos = [
   {"caption": "An astronaut cooking with a pan and fire in the kitchen, high definition, 4k.", "src": "assets/text_to_video/video46.mp4"},
   {"caption": "An astronaut feeding ducks on a sunny afternoon, reflection from the water.", "src": "assets/text_to_video/video47.mp4"},
   {"caption": "An astronaut riding a horse in sunset, 4k, high resolution.", "src": "assets/text_to_video/video48.mp4"},
-  {"caption": "Batman is working in front of a computer, in comic.", "src": "assets/text_to_video/video49.mp4"},  
+  // {"caption": "Batman is working in front of a computer, in comic.", "src": "assets/text_to_video/video49.mp4"},  
   {"caption": "Bird-eye view of a highway in Los Angeles.", "src": "assets/text_to_video/video50.mp4"},
   {"caption": "Flying through an intense battle between pirate ships in a stormy ocean.", "src": "assets/text_to_video/video51.mp4"},
-  {"caption": "Hulk wearing virtual reality goggles, 4k, high resolution.", "src": "assets/text_to_video/video52.mp4"},
-  {"caption": "Ironman flying over a burning city, very detailed surroundings, cities are blazing, shiny iron man suit, realistic, 4k ultra high definition.", "src": "assets/text_to_video/video53.mp4"},
+  // {"caption": "Hulk wearing virtual reality goggles, 4k, high resolution.", "src": "assets/text_to_video/video52.mp4"},
+  // {"caption": "Ironman flying over a burning city, very detailed surroundings, cities are blazing, shiny iron man suit, realistic, 4k ultra high definition.", "src": "assets/text_to_video/video53.mp4"},
   {"caption": "A car moving slowly on an empty street, rainy evening, van Gogh painting.", "src": "assets/text_to_video/video54.mp4"},
   {"caption": "Traveler walking alone in the misty forest at sunset.", "src": "assets/text_to_video/video55.mp4"},
 ];
@@ -118,7 +118,7 @@ function updateVideoGallery() {
   globalVideoIdx = ++globalVideoIdx % numVideos;
   updateVideoSlot(globalVideoIdx, idxSlot);
 
-  setTimeout(updateVideoGallery, 4270);
+  // setTimeout(updateVideoGallery, 4270);
 }
 
 function updateAllVideoSlots() {
@@ -152,12 +152,12 @@ function playVideo(id, src) {
   $(id + " video")[0].load();
 }
 
-for (var i = 0; i < 32; ++i) {
+for (var i = 0; i < 52; ++i) {
   addVideoSlot(i);
 }
 
 updateAllVideoSlots();
-setTimeout(updateVideoGallery, 4270);
+// setTimeout(updateVideoGallery, 4270);
 </script>
 
 </body>
