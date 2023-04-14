@@ -29,7 +29,7 @@
     <div class="background_video_header" style="width: 100%">
 
         <div class="nv-btn-parent">
-            <a href="https://research.nvidia.com/labs/toronto-ai/">
+            <a href="https://research.nvidia.com/labs/toronto-ai/" target="_blank" rel="noopener noreferrer">
                 <div class="nv-btn">
                 <img width="90%" src="assets/figures/nvidia.svg" style="margin-top: 15px; margin-bottom: 0px; margin-left: auto; margin-right: auto;"><br/>
                 Toronto AI Lab
@@ -41,13 +41,13 @@
         <div id="authors">
             <center>
             <div class="author-row-new">
-                <a href="https://twitter.com/andi_blatt">Andreas Blattmann<sup>1</sup> <sup>*,<span>&#8224;</span></sup></a>
-                <a href="https://twitter.com/robrombach">Robin Rombach<sup>1</sup> <sup>*,<span>&#8224;</span></sup></a>
-                <a href="https://www.cs.toronto.edu/~linghuan/">Huan Ling<sup>2,3,4</sup> <sup>*</sup></a>
-                <a href="https://timudk.github.io/">Tim Dockhorn<sup>2,3,5</sup> <sup>*,<span>&#8224;</span></sup></a><br/>
-                <a href="https://seung-kim.github.io/seungkim/">Seung Wook Kim<sup>2,3,4</sup></a>
-                <a href="https://www.cs.toronto.edu/~fidler/">Sanja Fidler<sup>2,3,4</sup></a>
-                <a href="https://karstenkreis.github.io/">Karsten Kreis<sup>2</sup></a>
+                <a href="https://twitter.com/andi_blatt" target="_blank" rel="noopener noreferrer">Andreas Blattmann<sup>1</sup> <sup>*,<span>&#8224;</span></sup></a>
+                <a href="https://twitter.com/robrombach" target="_blank" rel="noopener noreferrer">Robin Rombach<sup>1</sup> <sup>*,<span>&#8224;</span></sup></a>
+                <a href="https://www.cs.toronto.edu/~linghuan/" target="_blank" rel="noopener noreferrer">Huan Ling<sup>2,3,4</sup> <sup>*</sup></a>
+                <a href="https://timudk.github.io/" target="_blank" rel="noopener noreferrer">Tim Dockhorn<sup>2,3,5</sup> <sup>*,<span>&#8224;</span></sup></a><br/>
+                <a href="https://seung-kim.github.io/seungkim/" target="_blank" rel="noopener noreferrer">Seung Wook Kim<sup>2,3,4</sup></a>
+                <a href="https://www.cs.toronto.edu/~fidler/" target="_blank" rel="noopener noreferrer">Sanja Fidler<sup>2,3,4</sup></a>
+                <a href="https://karstenkreis.github.io/" target="_blank" rel="noopener noreferrer">Karsten Kreis<sup>2</sup></a>
             </div>
             </center>
             <center>
@@ -72,7 +72,7 @@
 
             <div style="clear: both">
                 <div class="paper-btn-parent">
-                <a class="paper-btn" href="https://nv-tlabs.github.io/VideoLDM/">Read the paper</a>
+                <a class="paper-btn" href="https://nv-tlabs.github.io/VideoLDM/" target="_blank" rel="noopener noreferrer">Read the paper</a>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
     <hr style="height: 20px; border: none; color: black; background-color: #ebebeb;">
     <center>
     <div class="grey_bg"> 
-        <a href="samples.html"><div class="more-samples">Click for more samples</div></a>
+        <a href="samples.html" target="_blank" rel="noopener noreferrer"><div class="more-samples">Click for more samples</div></a>
         <hr style="height: 25px; border: none; color: black; background-color: #ebebeb;">
         <section id="abstract"/>
             <h2>Abstract</h2>
@@ -186,7 +186,7 @@
         <h2>Text-to-Video Synthesis</h2>
         <hr>
         <div class="flex-row">
-            <p> Many generated videos can be found at the top of the page as well as <a href="samples.html"><b>here</b></a>. The generated videos have a resolution of 1280 x 2048 pixels and are 4.27 seconds long with a frame rate of 30 fps.   
+            <p> Many generated videos can be found at the top of the page as well as <a href="samples.html" target="_blank" rel="noopener noreferrer"><b>here</b></a>. The generated videos have a resolution of 1280 x 2048 pixels and are 4.27 seconds long with a frame rate of 30 fps.   
                 Our Video LDM for text-to-video generation is based on Stable Diffusion and has a total of 4.1B parameters, including all components except the CLIP text encoder. Only 2.7B of these parameters are trained on videos. 
                 This means that our models are significantly smaller than those of several concurrent works. Nevertheless, we can produce high-resolution, temporally consistent and diverse videos. This can be attributed to the efficient
                 LDM approach. Below is another text-to-video sample, one of our favorites.
@@ -211,7 +211,7 @@
 
 
             <p> <b>Personalized Video Generation.</b> We insert the temporal layers that were trained for our Video LDM for text-to-video synthesis into image LDM backbones that we previously fine-tuned on a set of images
-                following <a href="https://dreambooth.github.io/"><b>DreamBooth</b></a>. The temporal layers generalize to the DreamBooth checkpoints, thereby enabling personalized text-to-video generation.
+                following <a href="https://dreambooth.github.io/" target="_blank" rel="noopener noreferrer"><b>DreamBooth</b></a>. The temporal layers generalize to the DreamBooth checkpoints, thereby enabling personalized text-to-video generation.
             </p>
             <div class="wrapper" style="justify-content: space-between">
                 <div style="width: 33%;">
@@ -408,7 +408,7 @@
         <h2>Driving Scene Video Generation</h2>
         <hr>
         <div class="flex-row">
-            <p> We also train a Video LDM on in-the-wild real driving scene videos and generate videos at 512 x 1024 resolution. Here, we are additionally training prediction models to enable long video generation, allowing us to generate temporally coherent videos that are several minutes long. Below we show four short synthesized videos. Furthermore, several 5 minute long generated videos can be found <a href="https://drive.google.com/file/d/1xlE079d4QmVZ-kWLZVsIk8iHWWH5wzKO/view?usp=share_link"><b>here</b></a>.
+            <p> We also train a Video LDM on in-the-wild real driving scene videos and generate videos at 512 x 1024 resolution. Here, we are additionally training prediction models to enable long video generation, allowing us to generate temporally coherent videos that are several minutes long. Below we show four short synthesized videos. Furthermore, several 5 minute long generated videos can be found <a href="https://drive.google.com/file/d/1xlE079d4QmVZ-kWLZVsIk8iHWWH5wzKO/view?usp=share_link" target="_blank" rel="noopener noreferrer"><b>here</b></a>.
             </p>
             <div class="wrapper" style="justify-content: space-between">
                 <div style="width: 49.5%;">
@@ -519,16 +519,16 @@
         <div class="flex-row">
             <div class="download-thumb">
                 <div style="box-sizing: border-box; padding: 16px; margin: auto;">
-                    <a href="https://nv-tlabs.github.io/VideoLDM/"><img class="screenshot" src="assets/figures/video_ldm_paper_preview.png"></a>
+                    <a href="https://nv-tlabs.github.io/VideoLDM/" target="_blank" rel="noopener noreferrer"><img class="screenshot" src="assets/figures/video_ldm_paper_preview.png"></a>
                 </div>
             </div>
             <div class="paper-stuff">
-                <p><b>Align Your Latents:<br>High-Resolution Video Synthesis with Latent Diffusion Models</b></p>
+                <p><b>Align your Latents:<br>High-Resolution Video Synthesis with Latent Diffusion Models</b></p>
                 <p>Andreas Blattmann*, Robin Rombach*, Huan Ling*, Tim Dockhorn*, Seung Wook Kim, Sanja Fidler, Karsten Kreis</p>
                 <p><i>* Equal contribution.</i></p>
                 <p><i>IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2023</i></p>
-                <div><span class="material-icons"> description </span><a href="https://nv-tlabs.github.io/VideoLDM/"> arXiv version</a></div>
-                <div><span class="material-icons"> insert_comment </span><a href="assets/blattmann2023videoldm.bib"> BibTeX</a></div>
+                <div><span class="material-icons"> description </span><a href="https://nv-tlabs.github.io/VideoLDM/" target="_blank" rel="noopener noreferrer"> arXiv version</a></div>
+                <div><span class="material-icons"> insert_comment </span><a href="assets/blattmann2023videoldm.bib" target="_blank" rel="noopener noreferrer"> BibTeX</a></div>
             </div>
         </div>
     </section>
@@ -537,7 +537,7 @@
         <h2>Citation</h2>
         <hr>
         <pre><code>@inproceedings{blattmann2023videoldm,
-    title={Align Your Latents: High-Resolution Video Synthesis with Latent Diffusion Models},
+    title={Align your Latents: High-Resolution Video Synthesis with Latent Diffusion Models},
     author={Blattmann, Andreas and Rombach, Robin and Ling, Huan and Dockhorn, Tim and Kim, Seung Wook and Fidler, Sanja and Kreis, Karsten},
     booktitle={IEEE Conference on Computer Vision and Pattern Recognition ({CVPR})},
     year={2023}
@@ -559,7 +559,7 @@ hdvideos = [
   // {"caption": "A golden retriever has a picnic on a beautiful tropical beach at sunset, high resolution.", "src": "assets/text_to_video/video8.mp4"},
   // {"caption": "A hot air balloon ascending over a lush valley, 4k, high definition.", "src": "assets/text_to_video/video9.mp4"},
   // {"caption": "A lion standing on a surfboard in the ocean in sunset, 4k, high resolution.", "src": "assets/text_to_video/video10.mp4"},
-  // {"caption": "A panda standing on a surfboard in the ocean in sunset, 4k, high resolution.", "src": "assets/text_to_video/video11.mp4"},
+  {"caption": "A panda standing on a surfboard in the ocean in sunset, 4k, high resolution.", "src": "assets/text_to_video/video11.mp4"},
   // {"caption": "A shiny golden waterfall flowing through glacier at night.", "src": "assets/text_to_video/video12.mp4"},
   // {"caption": "A storm trooper riding a bike in sunset street, 4k, high resolution.", "src": "assets/text_to_video/video13.mp4"},
   {"caption": "A storm trooper vacuuming the beach.", "src": "assets/text_to_video/video14.mp4"},
@@ -576,7 +576,7 @@ hdvideos = [
   // {"caption": "Time lapse at the snow land with aurora in the sky, 4k, high resolution.", "src": "assets/text_to_video/video25.mp4"},
   {"caption": "Turtle swimming in ocean.", "src": "assets/text_to_video/video26.mp4"},
   // {"caption": "Two pandas sitting at a table playing cards, 4k, high resolution.", "src": "assets/text_to_video/video27.mp4"},
-  {"caption": "Two raccoons reading books in nyc Times Square.", "src": "assets/text_to_video/video28.mp4"},
+  // {"caption": "Two raccoons reading books in nyc Times Square.", "src": "assets/text_to_video/video28.mp4"},
   // {"caption": "Waves crashing against a lone lighthouse, ominous lighting.", "src": "assets/text_to_video/video29.mp4"},
   // {"caption": "Wood on fire.", "src": "assets/text_to_video/video30.mp4"},
   // {"caption": "Yellow flowers swing in wind.", "src": "assets/text_to_video/video31.mp4"},
